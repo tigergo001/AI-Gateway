@@ -1,0 +1,6 @@
+{
+  "name": "AI Gateway",
+  "description": "A sophisticated dashboard for managing LLM deployments, routing, and analytics with a modern, mobile-optimized interface.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

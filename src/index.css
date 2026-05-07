@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+
+  --color-primary: #ea580c;
+  --color-primary-container: #fdba74;
+  --color-on-primary-container: #431407;
+  
+  --color-secondary: #d97706;
+  --color-secondary-container: #fcd34d;
+  --color-on-secondary-container: #412800;
+
+  --color-tertiary: #16a34a;
+  --color-tertiary-container: #86efac;
+  --color-on-tertiary-container: #052e16;
+
+  --color-surface: #fafafa;
+  --color-surface-dim: #e5e5e5;
+  --color-surface-container: #f4f4f5;
+  --color-surface-container-low: #f8f8fa;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #e4e4e7;
+  --color-surface-container-highest: #d4d4d8;
+
+  --color-on-surface: #18181b;
+  --color-on-surface-variant: #3f3f46;
+  --color-outline: #71717a;
+  --color-outline-variant: #d4d4d8;
+
+  --color-error: #dc2626;
+  --color-error-container: #fecaca;
+  --color-on-error-container: #450a0a;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F2F3F5] text-on-surface font-sans;
+  }
+}
+
+.glass-card {
+  @apply bg-white/70 backdrop-blur-[20px] border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.05)];
+}
+
+.glass-panel {
+  @apply bg-black/40 backdrop-blur-[20px] border border-white/20 shadow-lg;
+}
