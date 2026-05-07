@@ -80,7 +80,7 @@ export const Routes = () => {
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <h3 className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">{t('routes.auto')}</h3>
-          <span className="text-[10px] font-mono font-bold text-secondary">3 Strategies Active</span>
+          <span className="text-[10px] font-mono font-bold text-secondary">{t('routes.strategiesActive', { count: '3' })}</span>
         </div>
         <div className="space-y-3">
           {strategies.map((strategy) => (
@@ -96,7 +96,7 @@ export const Routes = () => {
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-bold">{strategy.name}</span>
                     {strategy.optimized && (
-                      <span className="bg-secondary-container/20 text-secondary text-[8px] px-2 py-0.5 rounded-full font-black uppercase">Optimized</span>
+                      <span className="bg-secondary-container/20 text-secondary text-[8px] px-2 py-0.5 rounded-full font-black uppercase">{t('routes.optimized')}</span>
                     )}
                   </div>
                   <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -118,16 +118,16 @@ export const Routes = () => {
       {/* Actions */}
       <div className="pt-6 space-y-3">
         <button 
-          onClick={() => alert('Route settings saved successfully!')}
+          onClick={() => alert(t('routes.saveAlert') as string)}
           className="w-full bg-primary text-on-primary font-bold text-sm py-4 rounded-xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2"
         >
-          {t('common.save')} Route Changes
+          {t('routes.saveChanges')}
           <CheckCircle2 className="w-5 h-5" />
         </button>
         <button 
           onClick={() => {
-            if(window.confirm('Reset all routing combinations to default settings?')) {
-              alert('Settings reset.');
+            if(window.confirm(t('routes.resetConfirm') as string)) {
+              alert(t('routes.resetAlert') as string);
             }
           }}
           className="w-full bg-transparent border border-outline text-on-surface-variant font-bold text-[10px] py-3 rounded-xl hover:bg-surface-container transition-colors uppercase tracking-widest"

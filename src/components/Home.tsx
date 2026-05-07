@@ -4,7 +4,7 @@ import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'rec
 import { TrendingUp, CreditCard, Layers, Terminal, RefreshCcw, AlertTriangle, ChevronRight, Zap, Search } from 'lucide-react';
 import { activities, usageChartData } from '../constants';
 import { cn } from '../lib/utils';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
@@ -19,6 +19,7 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 export const Home = () => {
+  const navigate = useNavigate();
   const { t } = useLanguage();
   const [timeframe, setTimeframe] = useState<'live' | '24h'>('live');
 
@@ -117,7 +118,7 @@ export const Home = () => {
           <span>06:00</span>
           <span>12:00</span>
           <span>18:00</span>
-          <span>Now</span>
+          <span>{t('home.now')}</span>
         </div>
       </div>
 
@@ -150,7 +151,12 @@ export const Home = () => {
           ))}
         </div>
         <div className="p-3 text-center border-t border-outline-variant/30">
-          <button className="text-[10px] font-bold text-primary hover:underline uppercase tracking-wider">{t('home.viewAll')}</button>
+          <button 
+            onClick={() => navigate('/stats')}
+            className="text-[10px] font-bold text-primary hover:underline uppercase tracking-wider"
+          >
+            {t('home.viewAll')}
+          </button>
         </div>
       </div>
     </PageWrapper>

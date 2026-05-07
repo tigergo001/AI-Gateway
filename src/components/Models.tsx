@@ -136,25 +136,29 @@ export const Models = () => {
                 <h3 className="font-bold text-lg">{t('models.addBtn')}</h3>
                 <button onClick={() => setShowAddModal(false)} className="text-on-surface-variant hover:text-on-surface p-1 rounded-full"><X className="w-5 h-5" /></button>
               </div>
-              <form onSubmit={handleAddModel} className="space-y-4">
+              <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-on-surface-variant mb-1 uppercase tracking-wider">{t('models.modelName')}</label>
                   <input
                     type="text"
                     value={newModelName}
                     onChange={(e) => setNewModelName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if(e.key === 'Enter') handleAddModel(e as any);
+                    }}
                     placeholder={t('models.modelNamePlaceholder') as string}
                     className="w-full bg-surface-container-low border border-outline-variant rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
                     required
                   />
                 </div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleAddModel}
                   className="w-full py-3 bg-primary text-white font-bold rounded-xl active:scale-[0.98] transition-transform"
                 >
                   {t('models.addBtn')}
                 </button>
-              </form>
+              </div>
             </motion.div>
           </motion.div>
         )}

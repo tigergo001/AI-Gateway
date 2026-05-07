@@ -17,6 +17,8 @@ import { LogDetail } from './components/LogDetail';
 import { WorkspaceManagement } from './components/WorkspaceManagement';
 import { StrategyConfig } from './components/StrategyConfig';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { ToastProvider } from './contexts/ToastContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
@@ -28,8 +30,10 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 export default function App() {
   return (
     <AuthProvider>
-      <LanguageProvider>
-        <Router>
+      <NotificationProvider>
+        <ToastProvider>
+          <LanguageProvider>
+          <Router>
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
@@ -47,6 +51,8 @@ export default function App() {
           </Routes>
         </Router>
       </LanguageProvider>
+        </ToastProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

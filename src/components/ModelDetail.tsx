@@ -26,12 +26,12 @@ export const ModelDetail = () => {
             <h2 className="font-display text-2xl font-bold">GPT-4 Turbo</h2>
             <div className="flex items-center gap-2 mt-1">
               <div className="w-1.5 h-1.5 rounded-full bg-tertiary" />
-              <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">Online</span>
+              <span className="text-[10px] font-black text-on-surface-variant uppercase tracking-widest">{t('modelDetail.online')}</span>
             </div>
           </div>
         </div>
         <button 
-          onClick={() => alert('Changes saved successfully!')} 
+          onClick={() => alert(t('modelDetail.saveAlert') as string)} 
           className="bg-primary text-white px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-md hover:bg-primary-container active:scale-95 transition-all"
         >
           {t('common.save')}
@@ -43,19 +43,19 @@ export const ModelDetail = () => {
         {/* API Config */}
         <section className="bg-white border border-outline-variant rounded-2xl p-5 shadow-sm space-y-6">
           <div className="flex items-center justify-between border-b border-outline-variant/10 pb-3">
-            <h3 className="text-[10px] font-black text-primary uppercase tracking-widest">Interface Config</h3>
+            <h3 className="text-[10px] font-black text-primary uppercase tracking-widest">{t('modelDetail.interfaceConfig')}</h3>
             <Settings className="w-3.5 h-3.5 text-outline" />
           </div>
           <div className="space-y-5">
             <div className="space-y-2">
-              <label className="text-[9px] font-bold text-on-surface-variant uppercase">API Key (SK-...)</label>
+              <label className="text-[9px] font-bold text-on-surface-variant uppercase">{t('modelDetail.apiKey')}</label>
               <div className="bg-surface-container flex items-center gap-3 px-3 py-2.5 rounded-xl border border-outline-variant/20 shadow-inner">
                 <KeyRound className="w-4 h-4 text-outline" />
                 <input type="password" value="sk-proj-xxxxxxxx" readOnly className="bg-transparent border-none text-xs w-full focus:ring-0 font-mono" />
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-[9px] font-bold text-on-surface-variant uppercase">Base URL</label>
+              <label className="text-[9px] font-bold text-on-surface-variant uppercase">{t('modelDetail.baseUrl')}</label>
               <div className="bg-surface-container flex items-center gap-3 px-3 py-2.5 rounded-xl border border-outline-variant/20 shadow-inner">
                 <Server className="w-4 h-4 text-outline" />
                 <input type="text" value="https://api.openai.com/v1" className="bg-transparent border-none text-xs w-full focus:ring-0 font-mono" />
@@ -67,19 +67,19 @@ export const ModelDetail = () => {
         {/* Usage Limits */}
         <section className="bg-white border border-outline-variant rounded-2xl p-5 shadow-sm space-y-6">
           <div className="flex items-center justify-between border-b border-outline-variant/10 pb-3">
-            <h3 className="text-[10px] font-black text-primary uppercase tracking-widest">Usage Limits</h3>
+            <h3 className="text-[10px] font-black text-primary uppercase tracking-widest">{t('modelDetail.usageLimits')}</h3>
             <Gauge className="w-3.5 h-3.5 text-outline" />
           </div>
           <div className="space-y-6">
             <div className="space-y-3">
               <div className="flex justify-between items-center px-1">
-                <label className="text-[9px] font-bold text-on-surface-variant uppercase">Max Concurrency</label>
+                <label className="text-[9px] font-bold text-on-surface-variant uppercase">{t('modelDetail.maxConcurrency')}</label>
                 <span className="text-xs font-black text-secondary">50</span>
               </div>
               <input type="range" min="1" max="100" defaultValue="50" className="w-full h-1.5 bg-surface-container rounded-full appearance-none accent-secondary cursor-pointer" />
             </div>
             <div className="space-y-2">
-              <label className="text-[9px] font-bold text-on-surface-variant uppercase">Monthly Cap (USD)</label>
+              <label className="text-[9px] font-bold text-on-surface-variant uppercase">{t('modelDetail.monthlyCap')}</label>
               <div className="bg-surface-container flex items-center gap-3 px-3 py-2 rounded-xl border border-outline-variant/20 shadow-inner">
                 <span className="text-outline font-bold text-xs">$</span>
                 <input type="number" defaultValue="200" className="bg-transparent border-none text-xs w-full focus:ring-0 font-bold" />
@@ -92,9 +92,9 @@ export const ModelDetail = () => {
       {/* Test Section */}
       <section className="bg-white border border-outline-variant rounded-2xl p-5 shadow-sm space-y-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-[10px] font-black text-primary uppercase tracking-widest">{t('modelDetail.startTest') || 'Connection Test'}</h3>
+          <h3 className="text-[10px] font-black text-primary uppercase tracking-widest">{t('modelDetail.connectionTest')}</h3>
           <button 
-            onClick={() => alert('Starting test ping...')}
+            onClick={() => alert(t('modelDetail.testAlert') as string)}
             className="flex items-center gap-2 px-4 py-1.5 border border-secondary text-secondary rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-secondary/5 transition-colors"
           >
             <PlayCircle className="w-3.5 h-3.5" />
@@ -103,8 +103,8 @@ export const ModelDetail = () => {
         </div>
         <div className="bg-slate-900 rounded-xl p-5 shadow-2xl overflow-hidden relative group">
           <div className="flex justify-between items-center mb-4 text-white/40">
-             <span className="text-[8px] font-black uppercase tracking-[0.2em] font-mono">Response JSON</span>
-             <span className="text-[8px] font-black uppercase tracking-[0.2em] font-mono text-tertiary-container">Latency: 124ms</span>
+             <span className="text-[8px] font-black uppercase tracking-[0.2em] font-mono">{t('modelDetail.resJson')}</span>
+             <span className="text-[8px] font-black uppercase tracking-[0.2em] font-mono text-tertiary-container">{t('modelDetail.latencyInfo', { val: '124' })}</span>
           </div>
           <pre className="text-[10px] text-primary-container font-mono leading-relaxed overflow-x-auto selection:bg-white/20">
             {JSON.stringify({
@@ -129,8 +129,8 @@ export const ModelDetail = () => {
           </div>
           <button 
             onClick={() => {
-              if (window.confirm('Are you sure you want to permanently delete this model?')) {
-                alert('Model deleted.');
+              if (window.confirm(t('modelDetail.deleteConfirm') as string)) {
+                alert(t('modelDetail.deleteAlert') as string);
               }
             }}
             className="bg-error text-white px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-md hover:bg-error/90 active:scale-95 transition-all"

@@ -12,7 +12,7 @@ export const LogDetail = () => {
 
   const copyId = () => {
     navigator.clipboard.writeText(id || 'req_8k2n9m1p5z7x4v9q');
-    alert('Copied ID to clipboard');
+    alert(t('logDetail.copyId') as string);
   };
 
   return (
@@ -26,7 +26,7 @@ export const LogDetail = () => {
       <section className="bg-white border border-outline-variant rounded-2xl p-4 shadow-sm">
         <div className="flex justify-between items-start mb-6">
           <div>
-            <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Request ID</span>
+            <span className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">{t('logDetail.reqId')}</span>
             <div className="flex items-center gap-2 group cursor-pointer" onClick={copyId}>
               <span className="font-mono text-sm text-on-surface font-semibold">{id || 'req_8k2n9m1p5z7x4v9q'}</span>
               <Copy className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -34,25 +34,25 @@ export const LogDetail = () => {
           </div>
           <div className="bg-tertiary/10 px-3 py-1 rounded-full border border-tertiary/20 flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-tertiary" />
-            <span className="text-[10px] font-black text-tertiary uppercase tracking-widest">Success</span>
+            <span className="text-[10px] font-black text-tertiary uppercase tracking-widest">{t('logDetail.success')}</span>
           </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-6 border-t border-outline-variant/20">
           <div>
-            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">Timestamp</span>
+            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">{t('logDetail.timestamp')}</span>
             <span className="text-xs font-bold">2023-11-24 14:32:05</span>
           </div>
           <div>
-            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">Latency</span>
+            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">{t('logDetail.latency')}</span>
             <span className="text-xs font-bold">1,245 ms</span>
           </div>
           <div>
-            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">Model</span>
+            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">{t('logDetail.model')}</span>
             <span className="text-xs font-bold text-primary">GPT-4o-Turbo</span>
           </div>
           <div>
-            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">Source IP</span>
+            <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">{t('logDetail.sourceIp')}</span>
             <span className="text-xs font-bold">192.168.1.1</span>
           </div>
         </div>
@@ -61,7 +61,7 @@ export const LogDetail = () => {
       {/* Token Usage */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <section className="md:col-span-2 bg-white border border-outline-variant rounded-2xl p-5 shadow-sm">
-          <h3 className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-6">Token Distribution</h3>
+          <h3 className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-6">{t('logDetail.tokenDist')}</h3>
           <div className="space-y-6">
             <div className="relative h-2 w-full bg-surface-container rounded-full overflow-hidden flex shadow-inner">
               <div className="h-full bg-primary" style={{ width: '35%' }} />
@@ -71,19 +71,19 @@ export const LogDetail = () => {
               <div>
                 <div className="flex items-center gap-1.5 mb-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                  <span className="text-[9px] font-bold text-on-surface-variant uppercase">Prompt</span>
+                  <span className="text-[9px] font-bold text-on-surface-variant uppercase">{t('logDetail.prompt')}</span>
                 </div>
                 <span className="font-display text-xl font-bold">1,024</span>
               </div>
               <div>
                 <div className="flex items-center gap-1.5 mb-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                  <span className="text-[9px] font-bold text-on-surface-variant uppercase">Completion</span>
+                  <span className="text-[9px] font-bold text-on-surface-variant uppercase">{t('logDetail.completion')}</span>
                 </div>
                 <span className="font-display text-xl font-bold">2,048</span>
               </div>
               <div>
-                <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">Total</span>
+                <span className="text-[9px] font-bold text-on-surface-variant uppercase mb-1 block">{t('logDetail.total')}</span>
                 <span className="font-display text-xl font-bold text-secondary">3,072</span>
               </div>
             </div>
@@ -91,13 +91,13 @@ export const LogDetail = () => {
         </section>
 
         <section className="bg-white border border-outline-variant rounded-2xl p-5 shadow-sm flex flex-col justify-between">
-          <h3 className="text-[10px] font-bold text-on-surface-variant uppercase mb-2">Estimated Cost</h3>
+          <h3 className="text-[10px] font-bold text-on-surface-variant uppercase mb-2">{t('logDetail.estCost')}</h3>
           <div>
             <span className="font-display text-3xl font-bold text-primary">¥0.42</span>
             <p className="text-[8px] font-mono text-outline mt-2 leading-none">(1.0k * 0.01) + (2.0k * 0.03)</p>
           </div>
           <button 
-            onClick={() => alert('Opening billing details...')}
+            onClick={() => alert(t('logDetail.billingAlert') as string)}
             className="w-full bg-primary/5 hover:bg-primary/10 text-primary font-bold text-[10px] py-1.5 rounded-lg flex items-center justify-center gap-2 mt-4 uppercase tracking-widest transition-colors"
           >
             <Receipt className="w-3.5 h-3.5" />
@@ -109,12 +109,12 @@ export const LogDetail = () => {
       {/* Code Blocks */}
       <div className="space-y-4">
         {[
-          { label: 'Request Body', id: 'request', icon: Terminal, color: 'text-primary' },
-          { label: 'Response Body', id: 'response', icon: CircleCheck, color: 'text-tertiary' }
+          { label: t('logDetail.reqBody'), id: 'request', icon: Terminal, color: 'text-primary' },
+          { label: t('logDetail.resBody'), id: 'response', icon: CircleCheck, color: 'text-tertiary' }
         ].map((block) => {
           const isOpen = openBlocks[block.id as keyof typeof openBlocks];
           return (
-          <div key={block.label} className="bg-white border border-outline-variant rounded-2xl overflow-hidden shadow-sm">
+          <div key={block.id} className="bg-white border border-outline-variant rounded-2xl overflow-hidden shadow-sm">
             <div 
               onClick={() => setOpenBlocks(prev => ({ ...prev, [block.id]: !isOpen }))}
               className="flex items-center justify-between p-4 cursor-pointer hover:bg-surface-container/20 transition-colors"
@@ -128,7 +128,7 @@ export const LogDetail = () => {
             {isOpen && (
             <div className="p-4 pt-0">
                <pre className="bg-surface-container-low rounded-xl p-4 text-[11px] font-mono text-on-surface-variant overflow-x-auto leading-relaxed border border-outline-variant/30 shadow-inner">
-                 {block.label === 'Request Body' ? 
+                 {block.id === 'request' ? 
                    JSON.stringify({ 
                      model: 'gpt-4o-turbo', 
                      messages: [{ role: 'system', content: 'Design focused assistant' }],
@@ -151,14 +151,14 @@ export const LogDetail = () => {
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-3 pt-4">
         <button 
-          onClick={() => alert('Exporting log data as JSON...')}
+          onClick={() => alert(t('logDetail.exportAlert') as string)}
           className="flex-1 bg-surface-container-highest text-on-surface-variant font-bold text-[10px] py-3.5 rounded-xl border border-outline-variant flex items-center justify-center gap-2 hover:bg-outline-variant/20 transition-all active:scale-[0.98] uppercase tracking-widest"
         >
           <Download className="w-4 h-4" />
           {t('logDetail.export')}
         </button>
         <button 
-          onClick={() => alert('Re-running the request via proxy...')}
+          onClick={() => alert(t('logDetail.rerunAlert') as string)}
           className="flex-1 bg-primary text-white font-bold text-[10px] py-3.5 rounded-xl shadow-lg active:opacity-90 transition-all active:scale-[0.98] flex items-center justify-center gap-2 uppercase tracking-widest"
         >
           <RefreshCcw className="w-4 h-4" />

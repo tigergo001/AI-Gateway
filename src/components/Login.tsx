@@ -144,12 +144,15 @@ export const Login = () => {
                   </button>
                 </div>
 
-                <form onSubmit={handlePhoneLoginSubmit} className="w-full flex flex-col gap-3">
+                <div className="w-full flex flex-col gap-3">
                   <input 
                     type="tel" 
                     placeholder={t('login.phonePlaceholder') as string} 
                     value={phoneNumber}
                     onChange={e => setPhoneNumber(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handlePhoneLoginSubmit(e as any);
+                    }}
                     className="w-full h-12 bg-white/10 border-2 border-white/20 text-white rounded-xl px-4 text-sm focus:outline-none focus:border-primary placeholder:text-white/50" 
                   />
                   {phoneTab === 'pwd' ? (
@@ -158,6 +161,9 @@ export const Login = () => {
                       placeholder={t('login.passwordPlaceholder') as string} 
                       value={password}
                       onChange={e => setPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handlePhoneLoginSubmit(e as any);
+                      }}
                       className="w-full h-12 bg-white/10 border-2 border-white/20 text-white rounded-xl px-4 text-sm focus:outline-none focus:border-primary placeholder:text-white/50" 
                     />
                   ) : (
@@ -167,6 +173,9 @@ export const Login = () => {
                         placeholder={t('login.codePlaceholder') as string} 
                         value={code}
                         onChange={e => setCode(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handlePhoneLoginSubmit(e as any);
+                        }}
                         className="flex-1 h-12 bg-white/10 border-2 border-white/20 text-white rounded-xl px-4 text-sm focus:outline-none focus:border-primary placeholder:text-white/50" 
                       />
                       <button type="button" className="h-12 px-4 bg-white/10 border-2 border-white/20 text-white/90 rounded-xl text-xs font-bold hover:bg-white/20 transition-colors whitespace-nowrap">
@@ -175,7 +184,8 @@ export const Login = () => {
                     </div>
                   )}
                   <button 
-                    type="submit"
+                    type="button"
+                    onClick={handlePhoneLoginSubmit}
                     className="w-full h-12 bg-primary text-white rounded-xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary-container active:scale-[0.98] transition-all mt-2"
                   >
                     {t('login.submit')}
@@ -187,7 +197,7 @@ export const Login = () => {
                   >
                     {t('login.back')}
                   </button>
-                </form>
+                </div>
               </div>
             ) : (
              <>
