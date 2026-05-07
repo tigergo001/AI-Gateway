@@ -7,6 +7,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
 import { useToast } from '../contexts/ToastContext';
+import { userApi } from '../services/api';
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -18,10 +19,22 @@ export const Profile = () => {
   const [emails, setEmails] = useState(false);
   const [activeView, setActiveView] = useState<'main' | 'limits' | 'security' | 'edit_info' | 'notifications'>('main');
   const [userInfo, setUserInfo] = useState({
-    name: 'Alex Chen',
-    email: 'alex.chen@enterprise-ai.io',
-    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=256'
+    name: 'Loading...',
+    email: 'Loading...',
+    avatar: ''
   });
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await userApi.getProfile();
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user:', error);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleCopyKey = () => {
     navigator.clipboard.writeText('sk-gateway-v1-xxxxxxxxxxxx');
@@ -74,9 +87,14 @@ export const Profile = () => {
             />
           </div>
           <button 
-            onClick={() => {
-              showToast(t('profile.updateSuccess') as string, 'success');
-              setActiveView('main');
+            onClick={async () => {
+              try {
+                await userApi.updateProfile(userInfo);
+                showToast(t('profile.updateSuccess') as string, 'success');
+                setActiveView('main');
+              } catch (error) {
+                showToast('Failed to update profile', 'error');
+              }
             }}
             className="w-full bg-primary text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95 transition-all"
           >

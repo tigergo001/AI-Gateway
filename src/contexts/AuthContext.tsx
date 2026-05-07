@@ -24,11 +24,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   });
 
-  const login = (userData: User) => {
+  const login = (userData: User, token?: string) => {
     try {
       localStorage.setItem('auth_user', JSON.stringify(userData));
+      if (token) {
+        localStorage.setItem('auth_token', token);
+      }
     } catch (e) {
-      console.error('Failed to save user array:', e);
+      console.error('Failed to save auth data:', e);
     }
     setUser(userData);
   };
@@ -36,8 +39,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     try {
       localStorage.removeItem('auth_user');
+      localStorage.removeItem('auth_token');
     } catch (e) {
-      console.error('Failed to clear user array:', e);
+      console.error('Failed to clear auth data:', e);
     }
     setUser(null);
   };

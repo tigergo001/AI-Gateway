@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import { notificationApi } from '../services/api';
 
 export interface Notification {
   id: number;
@@ -18,11 +19,19 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
-  const [notifications, setNotifications] = useState<Notification[]>([
-    { id: 1, title: 'High Latency Detected', desc: 'GPT-4o in US-East is experiencing delays.', time: '2m ago', unread: true },
-    { id: 2, title: 'Quota Alert', desc: 'Daily token quota is at 85%.', time: '1h ago', unread: true },
-    { id: 3, title: 'New Login', desc: 'New login from Chrome on macOS.', time: '3h ago', unread: false },
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await notificationApi.getNotifications();
+        setNotifications(response.data);
+      } catch (error) {
+        console.error('Failed to fetch notifications:', error);
+      }
+    };
+    fetchNotifications();
+  }, []);
 
   const unreadCount = notifications.filter(n => n.unread).length;
 

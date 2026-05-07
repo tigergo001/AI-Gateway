@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 import { Info, ChevronLeft, ChevronRight, Activity, Search as SearchIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { modelUsageData, dailyCostData, logs } from '../constants';
 import { cn } from '../lib/utils';
+import { statsApi } from '../services/api';
 
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const Stats = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [stats, setStats] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await statsApi.getStats();
+        setStats(response.data);
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
+    fetchStats();
+  }, []);
+
+  const displayLogs = stats?.recentActivity?.length > 0 ? stats.recentActivity : logs;
 
   return (
     <motion.div
@@ -130,7 +146,7 @@ export const Stats = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-outline-variant/30">
-              {logs.map((log) => (
+              {displayLogs.map((log: any) => (
                 <tr key={log.id} className="hover:bg-surface-container/30 transition-colors cursor-pointer group" onClick={() => navigate(`/stats/detail/${log.id}`)}>
                   <td className="px-4 py-4 font-mono text-[10px] text-outline">{log.timestamp}</td>
                   <td className="px-4 py-4">

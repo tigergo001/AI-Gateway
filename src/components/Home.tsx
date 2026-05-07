@@ -6,6 +6,7 @@ import { activities, usageChartData } from '../constants';
 import { cn } from '../lib/utils';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import { statsApi } from '../services/api';
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => (
   <motion.div
@@ -22,6 +23,24 @@ export const Home = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const [timeframe, setTimeframe] = useState<'live' | '24h'>('live');
+  const [stats, setStats] = useState({
+    todayTokens: '...',
+    estCost: '...',
+    activeModels: '...',
+    recentActivity: [] as any[]
+  });
+
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await statsApi.getStats();
+        setStats(response.data);
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <PageWrapper>
@@ -45,7 +64,7 @@ export const Home = () => {
             </span>
           </div>
           <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">{t('home.todayTokens')}</p>
-          <p className="font-display text-2xl font-bold text-primary">842.1k</p>
+          <p className="font-display text-2xl font-bold text-primary">{stats.todayTokens}</p>
         </div>
 
         <div className="glass-card rounded-xl p-4">
@@ -54,18 +73,18 @@ export const Home = () => {
             <span className="text-on-surface-variant font-bold text-[10px]">USD</span>
           </div>
           <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">{t('home.estCost')}</p>
-          <p className="font-display text-2xl font-bold text-primary">$124.50</p>
+          <p className="font-display text-2xl font-bold text-primary">${stats.estCost}</p>
         </div>
 
         <div className="glass-card rounded-xl p-4 col-span-2 md:col-span-1">
           <div className="flex justify-between items-start mb-2">
             <Layers className="w-5 h-5 text-secondary" />
             <div className="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center border-2 border-white text-[10px] font-bold text-white">
-              4
+              {stats.activeModels.split('/')[0]}
             </div>
           </div>
           <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">{t('home.activeModels')}</p>
-          <p className="font-display text-2xl font-bold text-primary">12</p>
+          <p className="font-display text-2xl font-bold text-primary">{stats.activeModels.split('/')[1]}</p>
         </div>
       </div>
 
@@ -128,25 +147,27 @@ export const Home = () => {
           <h3 className="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">{t('home.recentActivity')}</h3>
         </div>
         <div className="divide-y divide-outline-variant/30">
-          {activities.map((activity) => (
+          {(stats.recentActivity.length > 0 ? stats.recentActivity : activities).map((activity: any) => (
             <Link key={activity.id} to={`/log-detail/${activity.id}`} className="px-4 py-3 flex items-center justify-between hover:bg-surface-container/30 transition-colors">
               <div className="flex items-center gap-3">
                 <div className={cn(
                   "w-10 h-10 rounded-lg flex items-center justify-center",
-                  activity.type === 'request' ? "bg-primary-container/10 text-primary" :
-                  activity.type === 'route' ? "bg-tertiary-container/10 text-tertiary" :
+                  activity.status === '200' ? "bg-primary-container/10 text-primary" :
+                  activity.status?.startsWith('4') ? "bg-tertiary-container/10 text-tertiary" :
                   "bg-error-container/10 text-error"
                 )}>
-                  {activity.type === 'request' ? <Terminal className="w-5 h-5" /> :
-                   activity.type === 'route' ? <RefreshCcw className="w-5 h-5" /> :
+                  {activity.status === '200' ? <Terminal className="w-5 h-5" /> :
+                   activity.status?.startsWith('4') ? <RefreshCcw className="w-5 h-5" /> :
                    <AlertTriangle className="w-5 h-5" />}
                 </div>
                 <div>
-                  <p className="text-sm font-bold">{activity.title}</p>
-                  <p className="text-xs text-on-surface-variant">{activity.description}</p>
+                  <p className="text-sm font-bold">{activity.model || activity.title}</p>
+                  <p className="text-xs text-on-surface-variant font-medium opacity-70">
+                    {activity.status} {activity.statusText || (activity.status === '200' ? 'OK' : 'Error')}
+                  </p>
                 </div>
               </div>
-              <p className="text-[10px] font-mono text-on-surface-variant">{activity.time}</p>
+              <p className="text-[10px] font-mono text-on-surface-variant font-black">{activity.timestamp || activity.time}</p>
             </Link>
           ))}
         </div>

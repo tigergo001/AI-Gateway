@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Component, Edit3, UserPlus, ArrowRight, Archive, Settings2, Trash2, Lock, Info, Search, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useLanguage } from '../contexts/LanguageContext';
+import { workspaceApi } from '../services/api';
 
 export const WorkspaceManagement = () => {
   const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'create' | 'edit' | 'invite'>('create');
   const [selectedWs, setSelectedWs] = useState<any>(null);
+  const [workspaces, setWorkspaces] = useState<any[]>([]);
 
-  const workspaces = [
-    { 
-      id: '1', name: t('workspace.prodEnv'), status: 'Active', 
-      models: 12, created: '2023.10.15', members: ['JS', 'ML', '+3'], 
-      color: 'bg-primary' 
-    },
-    { 
-      id: '2', name: t('workspace.testBeta'), status: 'Idle', 
-      models: 4, created: '2023.12.01', members: ['LZ'], 
-      color: 'bg-secondary' 
-    },
-    { 
-      id: '3', name: t('workspace.archiveYear'), status: 'Stopped', 
-      models: 0, created: '2023.05.20', members: [], 
-      locked: true, color: 'bg-surface-container-highest' 
-    },
-  ];
+  useEffect(() => {
+    const fetchWorkspaces = async () => {
+      try {
+        const response = await workspaceApi.getWorkspaces();
+        setWorkspaces(response.data.map((ws: any, idx: number) => ({
+          ...ws,
+          members: ws.members || (idx === 0 ? ['JS', 'ML', '+3'] : idx === 1 ? ['LZ'] : []),
+          color: idx === 0 ? 'bg-primary' : idx === 1 ? 'bg-secondary' : 'bg-surface-container-highest',
+          models: ws.units || ws.models,
+          created: ws.date || ws.created
+        })));
+      } catch (error) {
+        console.error('Failed to fetch workspaces:', error);
+      }
+    };
+    fetchWorkspaces();
+  }, []);
 
   const handleCreate = () => {
     setModalType('create');

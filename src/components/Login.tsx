@@ -4,6 +4,7 @@ import { LayoutGrid, MessageSquare, Smartphone, Globe, Key, X } from 'lucide-rea
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useAuth } from '../contexts/AuthContext';
+import { authApi } from '../services/api';
 
 type LoginMethod = 'options' | 'phone';
 type PhoneTab = 'pwd' | 'code';
@@ -35,9 +36,14 @@ export const Login = () => {
     doWechatLogin();
   };
 
-  const doWechatLogin = () => {
-    login({ id: '1', name: 'WeChat User' });
-    navigate('/');
+  const doWechatLogin = async () => {
+    try {
+      const response = await authApi.login({ method: 'wechat' });
+      login(response.data.user, response.data.token);
+      navigate('/');
+    } catch (error: any) {
+      alert(error.response?.data?.error || 'Login failed');
+    }
   };
 
   const handlePhoneLoginSubmit = (e: React.FormEvent) => {
@@ -52,10 +58,15 @@ export const Login = () => {
     doPhoneLogin();
   };
 
-  const doPhoneLogin = () => {
+  const doPhoneLogin = async () => {
     if(phoneNumber.length > 5) {
-      login({ id: '2', name: phoneNumber });
-      navigate('/');
+      try {
+        const response = await authApi.login({ phone: phoneNumber, password, code });
+        login(response.data.user, response.data.token);
+        navigate('/');
+      } catch (error: any) {
+         alert(error.response?.data?.error || 'Login failed');
+      }
     } else {
       alert('Please enter a valid phone number');
     }
